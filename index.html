@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laberinto IA — BFS · DFS · Coste Uniforme · A*</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= FILA SUPERIOR ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <h1>🧭 Laberinto IA</h1>
+      <p>BFS · DFS · Coste Uniforme · A*</p>
+    </div>
+
+    <div class="top-controls">
+      <label class="speed-control">
+        <span>Animación</span>
+        <input id="speed" type="range" min="20" max="1000" value="180" step="20">
+        <span id="speedValue">180 ms</span>
+      </label>
+
+      <label class="check-control">
+        <input id="showExploration" type="checkbox" checked>
+        <span>Mostrar exploración</span>
+      </label>
+
+      <button id="runBtn" class="primary">▶ Ejecutar</button>
+      <button id="compareBtn" class="compare">⚖ Comparar todas</button>
+      <button id="pauseBtn">⏸ Pausar</button>
+      <button id="randomBtn">🎲 Aleatorio</button>
+      <button id="clearBtn">🧹 Limpiar</button>
+    </div>
+  </header>
+
+  <!-- ================= CONTENIDO ================= -->
+  <main class="layout">
+
+    <!-- ================= PANEL IZQUIERDO ================= -->
+    <aside class="sidebar">
+
+      <!-- ALGORITMO -->
+      <section class="panel">
+        <h2>Algoritmo</h2>
+        <label class="field-label">Método de búsqueda</label>
+
+        <select id="algorithm" name="algorithm" class="algorithm-select">
+          <option value="bfs" selected>BFS — Búsqueda en anchura</option>
+          <option value="dfs">DFS — Búsqueda en profundidad</option>
+          <option value="ucs">Coste uniforme — Prioriza menor coste</option>
+          <option value="astar">A* — Coste + heurística</option>
+        </select>
+      </section>
+
+      <!-- ESCENARIOS -->
+      <section class="panel">
+        <h2>Escenarios</h2>
+        <p class="help-text">Selecciona un escenario predeterminado.</p>
+
+        <div class="scenario-list">
+          <button class="scenario-btn" data-scenario="steps">
+            <strong>Menos pasos</strong>
+            <span>Tablero limpio con salida y meta</span>
+          </button>
+
+          <button class="scenario-btn" data-scenario="weights">
+            <strong>Pesos</strong>
+            <span>Introduce pesos en algunas celdas</span>
+          </button>
+
+          <button class="scenario-btn" data-scenario="goals">
+            <strong>Metas con costes</strong>
+            <span>Cerca no siempre es mejor</span>
+          </button>
+
+          <button class="scenario-btn" data-scenario="no-solution">
+            <strong>Sin solución</strong>
+            <span>Barrera que bloquea el camino</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- DIBUJO -->
+      <section class="panel">
+        <h2>Dibujo</h2>
+        <p class="help-text">Arrastra sobre la cuadrícula.</p>
+
+        <div class="draw-tools">
+          <button class="tool-btn active" data-tool="wall">
+            <span class="tool-icon wall-icon"></span>
+            Obstáculo
+          </button>
+
+          <button class="tool-btn" data-tool="erase">
+            <span class="tool-icon erase-icon"></span>
+            Borrar
+          </button>
+
+          <button class="tool-btn" data-tool="start">
+            <span class="tool-icon start-icon"></span>
+            Inicio
+          </button>
+
+          <button class="tool-btn" data-tool="goal">
+            <span class="tool-icon goal-icon"></span>
+            Meta
+          </button>
+
+          <button class="tool-btn" data-tool="weight">
+            <span class="tool-icon weight-icon">5</span>
+            Peso
+          </button>
+        </div>
+
+        <div class="inputs">
+          <label>
+            <span>Peso de baldosa</span>
+            <input id="tileWeight" type="number" min="1" max="999" value="5">
+          </label>
+
+          <label>
+            <span>Coste de la meta</span>
+            <input id="goalCost" type="number" min="0" max="9999" value="10">
+          </label>
+
+          <label>
+            <span>Metas aleatorias</span>
+            <input id="randomGoals" type="number" min="1" max="10" value="3">
+          </label>
+        </div>
+      </section>
+
+      <section class="panel legend-panel">
+        <h2>Leyenda</h2>
+        <div class="legend">
+          <span><i class="legend-cell start"></i> Inicio</span>
+          <span><i class="legend-cell goal"></i> Meta</span>
+          <span><i class="legend-cell wall"></i> Obstáculo</span>
+          <span><i class="legend-cell weight"></i> Peso</span>
+          <span><i class="legend-cell explored"></i> Explorado</span>
+          <span><i class="legend-cell path"></i> Camino</span>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- ================= ZONA CENTRAL ================= -->
+    <section class="workspace">
+
+      <div class="workspace-header">
+        <div>
+          <h2>Tablero</h2>
+          <p>Configura el escenario y ejecuta el algoritmo seleccionado.</p>
+        </div>
+
+        <div id="status" class="status">
+          <span>Preparado para ejecutar.</span>
+        </div>
+      </div>
+
+      <div class="board-section">
+        <div id="maze" class="maze" aria-label="Laberinto"></div>
+      </div>
+
+      <section class="results">
+        <h2>Resultados</h2>
+        <div id="resultCards" class="result-cards">
+          <p class="empty">Ejecuta un algoritmo para ver sus resultados.</p>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <footer>
+    <span>Proyecto educativo — Sistemas de resolución de problemas por búsqueda</span>
+    <span>IA & Big Data</span>
+  </footer>
+
+  <script src="algorithms.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
