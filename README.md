@@ -1,16 +1,10 @@
 #  Laboratorio de rutas — Algoritmos de búsqueda
 
-Aplicación web educativa para visualizar y comparar algoritmos clásicos de **búsqueda en espacios de estados** mediante un laberinto interactivo.
-
-El proyecto permite construir escenarios manualmente, ejecutar un algoritmo paso a paso mediante animación y comparar **BFS, DFS, Coste Uniforme y A*** sobre el mismo tablero.
-
----
-
 ## 1.  Objetivo
 
-El objetivo del proyecto es comprender de forma visual cómo funcionan distintos sistemas de resolución de problemas por búsqueda.
+El objetivo del proyecto es entender y saber comparar 4 de los algoritmos que existen para poder aprender a tomar buenas decisiones en nuestros proyectos.
 
-La aplicación permite observar:
+La aplicación nos muestra:
 
 - cómo explora cada algoritmo el tablero;
 - qué camino encuentra;
@@ -21,7 +15,6 @@ La aplicación permite observar:
 - cómo afectan los costes asociados a las metas;
 - y cómo cambia el comportamiento cuando no existe solución.
 
-La aplicación está pensada como herramienta de apoyo para el estudio de **Inteligencia Artificial y Big Data**, especialmente para la parte de sistemas de resolución de problemas por búsqueda.
 
 ---
 
@@ -71,9 +64,9 @@ proyecto/
 2. Configura el tablero manualmente o utiliza uno de los escenarios.
 3. Pulsa **Ejecutar**.
 4. Utiliza **Pausar / Continuar** para controlar la animación.
-5. Activa o desactiva **Mostrar exploración** según quieras visualizar las celdas visitadas.
+5. Activa o desactiva **Mostrar exploración** según quieras visualizar las celdas por las que pasa.
 6. Pulsa **Comparar todas** para ejecutar los cuatro algoritmos.
-7. Consulta los resultados individuales en la columna derecha y la tabla comparativa situada debajo del tablero.
+7. Consulta los resultados individuales en la columna derecha y la tabla comparativa que está debajo del tablero.
 
 ---
 
@@ -81,11 +74,11 @@ proyecto/
 
 ### Barra superior
 
--  **Velocidad de animación**: modifica la velocidad de visualización.
+-  **Velocidad de animación**: modifica la velocidad a la que se ejecuta el algoritmo
 -  **Mostrar exploración**: muestra u oculta los nodos explorados.
-- ▶ **Ejecutar**: ejecuta el algoritmo seleccionado.
+-  **Ejecutar**: ejecuta el algoritmo seleccionado.
 -  **Comparar todas**: calcula y visualiza BFS, DFS, Coste Uniforme y A*.
-- ⏸ **Pausar / Continuar**: detiene o continúa la animación.
+-  **Pausar / Continuar**: detiene o continúa la animación.
 -  **Aleatorio**: genera un tablero con inicio, metas, obstáculos y pesos aleatorios.
 -  **Limpiar**: reinicia el tablero, incluso si la animación está pausada.
 
@@ -96,7 +89,7 @@ Permite seleccionar:
 - Algoritmo.
 - Escenario.
 - Herramienta de dibujo.
-- Peso de baldosa.
+- Peso de celda.
 - Coste de meta.
 - Número de metas aleatorias.
 - Meta activa cuando existen varias metas.
@@ -108,8 +101,6 @@ Permite seleccionar:
 -  **Inicio**: coloca o mueve el punto de partida.
 -  **Meta**: añade una meta.
 -  **Peso**: asigna un coste de entrada a una celda.
-
-Los iconos se muestran junto con los colores para que la información no dependa únicamente del color.
 
 ---
 
