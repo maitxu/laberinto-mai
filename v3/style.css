@@ -125,7 +125,7 @@ button.compare {
   width: min(1450px, calc(100% - 30px));
   margin: 18px auto;
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr) 260px;
+  grid-template-columns: 285px minmax(650px, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -369,22 +369,20 @@ button.compare {
   background: rgba(18,26,45,.78);
   border: 1px solid var(--border);
   border-radius: 15px;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 20px 50px rgba(0,0,0,.22);
 }
 
 .maze {
-  display: grid;
-  grid-template-columns: repeat(20, minmax(0, 1fr));
-  grid-template-rows: repeat(20, minmax(0, 1fr));
-  gap: 1px;
-  width: min(100%, 760px);
-  max-width: 100%;
-  aspect-ratio: 1 / 1;
-  user-select: none;
-  touch-action: none;
-  border: none;
-  flex: 0 1 auto;
+    display: grid;
+    grid-template-columns: repeat(20, 38px);
+    grid-template-rows: repeat(20, 38px);
+    gap: 1px;
+    row-rule: 2px solid #9ca9c7;
+    column-rule: 2px solid #9ca9c7;
+    user-select: none;
+    touch-action: none;
+    border:none;
 }
 .maze-cell {
   border: 1px solid #9ca9c7;
@@ -465,23 +463,18 @@ button.compare {
 
 /* ================= RESULTADOS ================= */
 
-.results-column {
-  min-width: 0;
-}
-
 .results {
-  position: sticky;
-  top: 92px;
+  margin-top: 15px;
 }
 
 .results h2 {
-  margin: 0 0 12px;
+  margin: 0 0 9px;
   font-size: 1rem;
 }
 
 .result-cards {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 9px;
 }
 
@@ -515,98 +508,6 @@ button.compare {
   font-size: .78rem;
 }
 
-/* ================= TABLA COMPARATIVA ================= */
-
-.comparison-section {
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(18,26,45,.94);
-  border: 1px solid var(--border);
-  border-radius: 13px;
-}
-
-.comparison-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.comparison-header h2 {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.comparison-header p {
-  margin: 3px 0 0;
-  color: var(--muted);
-  font-size: .72rem;
-}
-
-.comparison-target {
-  padding: 7px 9px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--cyan);
-  background: var(--panel-2);
-  font-size: .7rem;
-  white-space: nowrap;
-}
-
-.comparison-table-wrap {
-  overflow-x: auto;
-}
-
-.comparison-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: clamp(.56rem, .7vw, .72rem);
-}
-
-.comparison-table th,
-.comparison-table td {
-  padding: 8px 6px;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.comparison-table th {
-  color: var(--muted);
-  font-weight: 700;
-  background: var(--panel-2);
-}
-
-.comparison-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.comparison-table td:not(:first-child) {
-  text-align: center;
-}
-
-.algorithm-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 800;
-}
-
-.algorithm-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.algorithm-dot.bfs { background: #3b82f6; }
-.algorithm-dot.dfs { background: #a855f7; }
-.algorithm-dot.ucs { background: #f97316; }
-.algorithm-dot.astar { background: #22c55e; }
-
 /* ================= FOOTER ================= */
 
 footer {
@@ -620,7 +521,7 @@ footer {
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 1200px) {
+@media (max-width: 1150px) {
   .topbar {
     position: static;
     flex-direction: column;
@@ -632,29 +533,13 @@ footer {
   }
 
   .layout {
-    width: min(100%, calc(100% - 20px));
-    grid-template-columns: 225px minmax(0, 1fr) 225px;
-    gap: 12px;
-  }
-
-  .panel {
-    padding: 12px;
-  }
-
-  .topbar {
-    gap: 12px;
-    padding: 12px 16px;
+    grid-template-columns: 250px minmax(580px, 1fr);
   }
 }
 
 @media (max-width: 900px) {
   .layout {
-    width: min(100%, calc(100% - 16px));
     grid-template-columns: 1fr;
-  }
-
-  .results {
-    position: static;
   }
 
   .sidebar {
@@ -683,41 +568,6 @@ footer {
   .workspace-header {
     flex-direction: column;
     align-items: flex-start;
-  }
-}
-
-@media (max-width: 650px) {
-  .layout {
-    margin-top: 10px;
-  }
-
-  .board-section {
-    padding: 8px;
-  }
-
-  .maze {
-    width: 100%;
-  }
-
-  .comparison-table th,
-  .comparison-table td {
-    padding: 6px 4px;
-    font-size: .58rem;
-  }
-
-  .comparison-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .comparison-target {
-    white-space: normal;
-  }
-
-  footer {
-    width: calc(100% - 16px);
-    flex-direction: column;
-    gap: 5px;
   }
 }
 

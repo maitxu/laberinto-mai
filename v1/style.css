@@ -48,7 +48,7 @@ body {
 
 .brand h1 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.45rem;
 }
 
 .brand p {
@@ -125,7 +125,7 @@ button.compare {
   width: min(1450px, calc(100% - 30px));
   margin: 18px auto;
   display: grid;
-  grid-template-columns: 250px minmax(0, 1fr) 260px;
+  grid-template-columns: 285px minmax(650px, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -255,10 +255,16 @@ button.compare {
   flex: 0 0 15px;
 }
 
-.wall-icon { background: var(--wall); border: 1px solid #46516b; }
-.erase-icon { background: #f1f5f9; }
-.start-icon { background: var(--green); }
-.goal-icon { background: var(--red); }
+.wall-icon { background: var(--wall); border: 1px solid #46516b; color: #fff; }
+.erase-icon { background: #f1f5f9; color: #334155; }
+.start-icon { background: var(--green); color: #052e16; }
+.goal-icon { background: var(--red); color: #fff; }
+
+/* Iconos de las herramientas: conservan el color y añaden una referencia visual */
+.wall-icon::before { content: "×"; font-size: 14px; font-weight: 900; line-height: 1; }
+.erase-icon::before { content: "⌫"; font-size: 11px; font-weight: 900; line-height: 1; }
+.start-icon::before { content: "▶"; font-size: 8px; font-weight: 900; line-height: 1; }
+.goal-icon::before { content: "★"; font-size: 9px; font-weight: 900; line-height: 1; }
 .weight-icon {
   background: var(--yellow);
   color: #111827;
@@ -320,12 +326,30 @@ button.compare {
   margin-right: 3px;
 }
 
-.legend-cell.start { background: var(--green); }
-.legend-cell.goal { background: var(--red); }
-.legend-cell.wall { background: var(--wall); }
-.legend-cell.weight { background: var(--yellow); }
-.legend-cell.explored { background: var(--explored); }
-.legend-cell.path { background: var(--orange); }
+.legend-cell.start { background: var(--green); color: #052e16; }
+.legend-cell.goal { background: var(--red); color: #fff; }
+.legend-cell.wall { background: var(--wall); color: #fff; }
+.legend-cell.weight { background: var(--yellow); color: #111827; }
+.legend-cell.explored { background: var(--explored); color: #fff; }
+.legend-cell.path { background: var(--orange); color: #431407; }
+
+/* Iconos de la leyenda */
+.legend-cell::before {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+}
+.legend-cell.start::before { content: "▶"; font-size: 7px; }
+.legend-cell.goal::before { content: "★"; font-size: 8px; }
+.legend-cell.wall::before { content: "×"; font-size: 11px; }
+.legend-cell.weight::before { content: "5"; font-size: 8px; }
+.legend-cell.explored::before { content: "•"; font-size: 12px; }
+.legend-cell.path::before { content: "→"; font-size: 10px; }
 
 /* ================= TABLERO ================= */
 
@@ -365,26 +389,22 @@ button.compare {
 .board-section {
   display: flex;
   justify-content: center;
-  padding: 1%;
+  padding: 18px;
   background: rgba(18,26,45,.78);
   border: 1px solid var(--border);
   border-radius: 15px;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 20px 50px rgba(0,0,0,.22);
 }
 
 .maze {
-  display: grid;
-  grid-template-columns: repeat(20, minmax(0, 1fr));
-  grid-template-rows: repeat(20, minmax(0, 1fr));
-  gap: 1px;
-  width: min(100%, 760px);
-  max-width: 100%;
-  aspect-ratio: 1 / 1;
-  user-select: none;
-  touch-action: none;
-  border: none;
-  flex: 0 1 auto;
+    display: grid;
+    grid-template-columns: repeat(20, 38px);
+    grid-template-rows: repeat(20, 38px);
+    gap: 1px;
+    user-select: none;
+    touch-action: none;
+    border: 1px solid #9ca9c7;
 }
 .maze-cell {
   border: 1px solid #9ca9c7;
@@ -397,7 +417,6 @@ button.compare {
     height: 100%;
     background: #f1f5f9;
     border-radius: 0;
-    border:none;
     cursor: crosshair;
     transition: background-color .12s ease, transform .12s ease;
 }
@@ -463,25 +482,78 @@ button.compare {
   box-shadow: 0 0 7px rgba(245,158,11,.5);
 }
 
-/* ================= RESULTADOS ================= */
+/* ================= ICONOS EN LA CUADRÍCULA ================= */
 
-.results-column {
-  min-width: 0;
+.node::before {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-weight: 900;
+  line-height: 1;
 }
 
+.node.start::before {
+  content: "▶";
+  color: #052e16;
+  font-size: 18px;
+  text-shadow: 0 1px 2px rgba(255,255,255,.25);
+}
+
+.node.goal::before {
+  content: "★";
+  color: #fff;
+  font-size: 18px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+
+.node.wall::before {
+  content: "×";
+  color: #94a3b8;
+  font-size: 20px;
+}
+
+.node.explored::before {
+  content: "•";
+  color: #dbeafe;
+  font-size: 22px;
+}
+
+.node.path::before {
+  content: "→";
+  color: #431407;
+  font-size: 17px;
+}
+
+.node.weight::before {
+  content: "◆";
+  color: rgba(120,53,15,.55);
+  font-size: 9px;
+  top: 2px;
+  right: 3px;
+  left: auto;
+  bottom: auto;
+  width: auto;
+  height: auto;
+}
+
+/* ================= RESULTADOS ================= */
+
 .results {
-  position: sticky;
-  top: 92px;
+  margin-top: 15px;
 }
 
 .results h2 {
-  margin: 0 0 12px;
+  margin: 0 0 9px;
   font-size: 1rem;
 }
 
 .result-cards {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 9px;
 }
 
@@ -515,98 +587,6 @@ button.compare {
   font-size: .78rem;
 }
 
-/* ================= TABLA COMPARATIVA ================= */
-
-.comparison-section {
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(18,26,45,.94);
-  border: 1px solid var(--border);
-  border-radius: 13px;
-}
-
-.comparison-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.comparison-header h2 {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.comparison-header p {
-  margin: 3px 0 0;
-  color: var(--muted);
-  font-size: .72rem;
-}
-
-.comparison-target {
-  padding: 7px 9px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--cyan);
-  background: var(--panel-2);
-  font-size: .7rem;
-  white-space: nowrap;
-}
-
-.comparison-table-wrap {
-  overflow-x: auto;
-}
-
-.comparison-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: clamp(.56rem, .7vw, .72rem);
-}
-
-.comparison-table th,
-.comparison-table td {
-  padding: 8px 6px;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.comparison-table th {
-  color: var(--muted);
-  font-weight: 700;
-  background: var(--panel-2);
-}
-
-.comparison-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.comparison-table td:not(:first-child) {
-  text-align: center;
-}
-
-.algorithm-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 800;
-}
-
-.algorithm-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.algorithm-dot.bfs { background: #3b82f6; }
-.algorithm-dot.dfs { background: #a855f7; }
-.algorithm-dot.ucs { background: #f97316; }
-.algorithm-dot.astar { background: #22c55e; }
-
 /* ================= FOOTER ================= */
 
 footer {
@@ -620,7 +600,7 @@ footer {
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 1200px) {
+@media (max-width: 1150px) {
   .topbar {
     position: static;
     flex-direction: column;
@@ -632,29 +612,13 @@ footer {
   }
 
   .layout {
-    width: min(100%, calc(100% - 20px));
-    grid-template-columns: 225px minmax(0, 1fr) 225px;
-    gap: 12px;
-  }
-
-  .panel {
-    padding: 12px;
-  }
-
-  .topbar {
-    gap: 12px;
-    padding: 12px 16px;
+    grid-template-columns: 250px minmax(580px, 1fr);
   }
 }
 
 @media (max-width: 900px) {
   .layout {
-    width: min(100%, calc(100% - 16px));
     grid-template-columns: 1fr;
-  }
-
-  .results {
-    position: static;
   }
 
   .sidebar {
@@ -685,129 +649,3 @@ footer {
     align-items: flex-start;
   }
 }
-
-@media (max-width: 650px) {
-  .layout {
-    margin-top: 10px;
-  }
-
-  .board-section {
-    padding: 8px;
-  }
-
-  .maze {
-    width: 100%;
-  }
-
-  .comparison-table th,
-  .comparison-table td {
-    padding: 6px 4px;
-    font-size: .58rem;
-  }
-
-  .comparison-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .comparison-target {
-    white-space: normal;
-  }
-
-  footer {
-    width: calc(100% - 16px);
-    flex-direction: column;
-    gap: 5px;
-  }
-}
-
-/* ================= ICONOS SOBRE LOS COLORES ================= */
-
-/* Los iconos complementan los colores: no sustituyen la codificación por color. */
-.node::before {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  line-height: 1;
-  font-weight: 900;
-}
-
-.node.wall::before {
-  /*content: "×";*/
-  color: #f8fafc;
-  font-size: 20px;
-}
-
-.node.start::before {
-  content: "▶";
-  color: #ffffff;
-  font-size: 17px;
-  text-shadow: 0 1px 2px rgba(0,0,0,.35);
-}
-
-.node.goal::before {
-  content: "★";
-  color: #ffffff;
-  font-size: 17px;
-  text-shadow: 0 1px 2px rgba(0,0,0,.35);
-}
-
-.node.weight::before {
-  content: "◆";
-  color: rgba(17,24,39,.7);
-  font-size: 8px;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 3px 4px;
-}
-
-.node.goal-weight::before {
-  content: "★";
-  color: #ffffff;
-  font-size: 9px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 3px 4px;
-}
-
-.node.explored::before {
-
-  color: #dbeafe;
-  font-size: 18px;
-}
-
-.node.path::before {
-  content: "→";
-  color: #ffffff;
-  font-size: 17px;
-  text-shadow: 0 1px 2px rgba(0,0,0,.3);
-}
-
-/* Iconos también visibles en la leyenda, manteniendo los colores. */
-.legend-cell {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-style: normal;
-  font-size: 9px;
-  font-weight: 900;
-}
-
-.legend-cell.start::after { content: "▶"; }
-.legend-cell.goal::after { content: "★"; }
-/*.legend-cell.wall::after { content: "×"; }*/
-.legend-cell.weight::after { content: "◆"; color: #111827; }
-/*.legend-cell.explored::after { content: "•"; }*/
-.legend-cell.path::after { content: "→"; }
-
-/* Iconos de las herramientas: además del color, identifican visualmente la acción. */
-.wall-icon::after { /*content: "×";*/ color: #fff; font-size: 12px; font-weight: 900; }
-.erase-icon::after { content: "⌫"; color: #111827; font-size: 11px; font-weight: 900; }
-.start-icon::after { content: "▶"; color: #fff; font-size: 9px; font-weight: 900; }
-.goal-icon::after { content: "★"; color: #fff; font-size: 9px; font-weight: 900; }

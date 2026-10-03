@@ -11,15 +11,15 @@
   <!-- ================= FILA SUPERIOR ================= -->
   <header class="topbar">
     <div class="brand">
-      <h1>🧭 Laboratorio de rutas</h1>
-      <p>Maitane Herrera</p>
+      <h1>🧭 Laberinto IA</h1>
+      <p>BFS · DFS · Coste Uniforme · A*</p>
     </div>
 
     <div class="top-controls">
       <label class="speed-control">
         <span>Animación</span>
-        <input id="speed" type="range" min="10" max="500" value="20" step="20">
-        <span id="speedValue">20 ms</span>
+        <input id="speed" type="range" min="20" max="1000" value="180" step="20">
+        <span id="speedValue">180 ms</span>
       </label>
 
       <label class="check-control">
@@ -109,7 +109,7 @@
           </button>
 
           <button class="tool-btn" data-tool="weight">
-            <span class="tool-icon weight-icon"></span>
+            <span class="tool-icon weight-icon">5</span>
             Peso
           </button>
         </div>
@@ -117,7 +117,7 @@
         <div class="inputs">
           <label>
             <span>Peso de baldosa</span>
-            <input id="tileWeight" type="number" min="1" max="999" value="1">
+            <input id="tileWeight" type="number" min="1" max="999" value="5">
           </label>
 
           <label>
@@ -130,9 +130,6 @@
             <input id="randomGoals" type="number" min="1" max="10" value="3">
           </label>
         </div>
-
-        <label class="field-label goal-select-label">Meta activa</label>
-        <select id="activeGoal" class="algorithm-select" aria-label="Seleccionar meta activa"></select>
       </section>
 
       <section class="panel legend-panel">
@@ -167,49 +164,19 @@
         <div id="maze" class="maze" aria-label="Laberinto"></div>
       </div>
 
-      <section id="comparisonSection" class="comparison-section" hidden>
-        <div class="comparison-header">
-          <div>
-            <h2>Comparación de algoritmos</h2>
-            <p>Resultados de BFS, DFS, Coste Uniforme y A* sobre el tablero actual.</p>
-          </div>
-          <span id="comparisonTarget" class="comparison-target">Meta activa: —</span>
-        </div>
-        <div class="comparison-table-wrap">
-          <table class="comparison-table">
-            <thead>
-              <tr>
-                <th>Algoritmo</th>
-                <th>Tipo de búsqueda</th>
-                <th>Pesos</th>
-                <th>Heurística</th>
-                <th>Encontrado</th>
-                <th>Nodos explorados</th>
-                <th>Pasos</th>
-                <th>Coste</th>
-              </tr>
-            </thead>
-            <tbody id="comparisonTableBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-    </section>
-
-    <!-- ================= RESULTADOS DERECHA ================= -->
-    <aside class="results-column">
       <section class="results">
         <h2>Resultados</h2>
         <div id="resultCards" class="result-cards">
           <p class="empty">Ejecuta un algoritmo para ver sus resultados.</p>
         </div>
       </section>
-    </aside>
+
+    </section>
   </main>
 
   <footer>
-    <span>PIA — Sistemas de resolución de problemas por búsqueda</span>
-    <span>Maitane Herrera</span>
+    <span>Proyecto educativo — Sistemas de resolución de problemas por búsqueda</span>
+    <span>IA & Big Data</span>
   </footer>
 
   <script src="algorithms.js"></script>

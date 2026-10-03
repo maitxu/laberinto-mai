@@ -130,9 +130,6 @@
             <input id="randomGoals" type="number" min="1" max="10" value="3">
           </label>
         </div>
-
-        <label class="field-label goal-select-label">Meta activa</label>
-        <select id="activeGoal" class="algorithm-select" aria-label="Seleccionar meta activa"></select>
       </section>
 
       <section class="panel legend-panel">
@@ -167,44 +164,14 @@
         <div id="maze" class="maze" aria-label="Laberinto"></div>
       </div>
 
-      <section id="comparisonSection" class="comparison-section" hidden>
-        <div class="comparison-header">
-          <div>
-            <h2>Comparación de algoritmos</h2>
-            <p>Resultados de BFS, DFS, Coste Uniforme y A* sobre el tablero actual.</p>
-          </div>
-          <span id="comparisonTarget" class="comparison-target">Meta activa: —</span>
-        </div>
-        <div class="comparison-table-wrap">
-          <table class="comparison-table">
-            <thead>
-              <tr>
-                <th>Algoritmo</th>
-                <th>Tipo de búsqueda</th>
-                <th>Pesos</th>
-                <th>Heurística</th>
-                <th>Encontrado</th>
-                <th>Nodos explorados</th>
-                <th>Pasos</th>
-                <th>Coste</th>
-              </tr>
-            </thead>
-            <tbody id="comparisonTableBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-    </section>
-
-    <!-- ================= RESULTADOS DERECHA ================= -->
-    <aside class="results-column">
       <section class="results">
         <h2>Resultados</h2>
         <div id="resultCards" class="result-cards">
           <p class="empty">Ejecuta un algoritmo para ver sus resultados.</p>
         </div>
       </section>
-    </aside>
+
+    </section> 
   </main>
 
   <footer>

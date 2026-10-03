@@ -20,13 +20,9 @@ const clearBtn = document.getElementById("clearBtn");
 const tileWeightElement = document.getElementById("tileWeight");
 const goalCostElement = document.getElementById("goalCost");
 const randomGoalsElement = document.getElementById("randomGoals");
-const activeGoalElement = document.getElementById("activeGoal");
 
 const statusElement = document.querySelector("#status span");
 const resultCardsElement = document.getElementById("resultCards");
-const comparisonSectionElement = document.getElementById("comparisonSection");
-const comparisonTableBodyElement = document.getElementById("comparisonTableBody");
-const comparisonTargetElement = document.getElementById("comparisonTarget");
 
 let grid = [];
 let start = { row: 1, col: 1 };
@@ -40,7 +36,6 @@ let pauseResolver = null;
 let animationToken = 0;
 
 let pointerDrawing = false;
-let comparisonVisible = false;
 
 /* ================= UTILIDADES ================= */
 
@@ -98,77 +93,6 @@ function clearResults() {
     '<p class="empty">Ejecuta un algoritmo para ver sus resultados.</p>';
 }
 
-function hideComparisonTable() {
-  comparisonVisible = false;
-  comparisonSectionElement.hidden = true;
-  comparisonTableBodyElement.innerHTML = "";
-}
-
-function showComparisonTable() {
-  comparisonVisible = true;
-  comparisonSectionElement.hidden = false;
-}
-
-function getAlgorithmCharacteristics(name) {
-  return {
-    bfs: { type: "Anchura", weights: "No", heuristic: "No" },
-    dfs: { type: "Profundidad", weights: "No", heuristic: "No" },
-    ucs: { type: "Coste mínimo", weights: "Sí", heuristic: "No" },
-    astar: { type: "Coste + heurística", weights: "Sí", heuristic: "Sí" }
-  }[name];
-}
-
-function renderComparisonTable(items) {
-  if (!comparisonVisible) return;
-
-  const target = getPrimaryGoal();
-  comparisonTargetElement.textContent = target
-    ? `Meta activa: fila ${target.row + 1}, columna ${target.col + 1} · coste ${target.cost}`
-    : "Meta activa: —";
-
-  comparisonTableBodyElement.innerHTML = items.map(item => {
-    const key = item.key || Object.keys(algorithmNames).find(k => algorithmNames[k] === item.name);
-    const characteristics = getAlgorithmCharacteristics(key);
-    const result = item.result;
-    const steps = result.found ? result.path.length - 1 : "—";
-    const cost = result.found ? result.cost : "—";
-
-    return `
-      <tr>
-        <td>
-          <span class="algorithm-badge">
-            <span class="algorithm-dot ${key}"></span>
-            ${algorithmNames[key]}
-          </span>
-        </td>
-        <td>${characteristics.type}</td>
-        <td>${characteristics.weights}</td>
-        <td>${characteristics.heuristic}</td>
-        <td>${result.found ? "Sí" : "No"}</td>
-        <td>${result.explored.length}</td>
-        <td>${steps}</td>
-        <td>${cost}</td>
-      </tr>
-    `;
-  }).join("");
-}
-
-function calculateAllResults() {
-  const target = getPrimaryGoal();
-  if (!target) return [];
-
-  return ["bfs", "dfs", "ucs", "astar"].map(key => ({
-    key,
-    name: algorithmNames[key],
-    result: executeAlgorithm(key, target)
-  }));
-}
-
-function refreshComparisonTable() {
-  if (!comparisonVisible || running) return;
-  renderComparisonTable(calculateAllResults());
-}
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -195,19 +119,7 @@ function getCell(row, col) {
 
 /* ================= RENDER ================= */
 
-function renderActiveGoalSelector() {
-  if (!activeGoalElement) return;
-
-  activeGoalElement.innerHTML = goals.map((goal, index) => {
-    const selected = index === selectedGoal ? " selected" : "";
-    return `<option value="${index}"${selected}>Meta ${index + 1} — coste ${goal.cost} (${goal.row + 1}, ${goal.col + 1})</option>`;
-  }).join("");
-
-  activeGoalElement.disabled = goals.length === 0;
-}
-
 function renderGrid() {
-  renderActiveGoalSelector();
   mazeElement.innerHTML = "";
 
   for (let row = 0; row < ROWS; row++) {
@@ -337,7 +249,6 @@ function applyTool(row, col) {
   }
 
   renderGrid();
-  refreshComparisonTable();
 }
 
 /* ================= ANIMACIÓN ================= */
@@ -445,12 +356,9 @@ async function runAlgorithm() {
   }
 
   showResults([{
-    key: name,
     name: algorithmNames[name],
     result
   }]);
-
-  refreshComparisonTable();
 
   setStatus(
     result.found
@@ -471,11 +379,21 @@ async function compareAll() {
 
   clearVisualization();
   clearResults();
-  showComparisonTable();
-
-  const results = calculateAllResults();
-  renderComparisonTable(results);
   updateButtons();
+
+  const names = ["bfs", "dfs", "ucs", "astar"];
+  const results = [];
+  const target = getPrimaryGoal();
+
+  /*
+   * Todos los algoritmos reciben el mismo tablero y la misma meta.
+   */
+  for (const name of names) {
+    results.push({
+      name: algorithmNames[name],
+      result: executeAlgorithm(name, target)
+    });
+  }
 
   for (const item of results) {
     clearVisualization();
@@ -497,8 +415,6 @@ async function compareAll() {
     await sleep(350);
   }
 
-  // Recalculamos al terminar por si algún parámetro cambió durante la animación.
-  renderComparisonTable(calculateAllResults());
   showResults(results);
 
   setStatus("Comparación terminada.");
@@ -511,7 +427,6 @@ function showResults(items) {
 
   items.forEach(item => {
     const result = item.result;
-    const algorithmKey = item.key || Object.keys(algorithmNames).find(key => algorithmNames[key] === item.name);
 
     const card = document.createElement("article");
     card.className = "result-card";
@@ -571,7 +486,6 @@ function scenarioSteps() {
    * permite observar la diferencia básica entre algoritmos.
    */
   renderGrid();
-  refreshComparisonTable();
   setStatus("Escenario: Menos pasos.");
 }
 
@@ -589,7 +503,6 @@ function scenarioWeights() {
   }
 
   renderGrid();
-  refreshComparisonTable();
   setStatus("Escenario: Pesos.");
 }
 
@@ -616,7 +529,6 @@ function scenarioGoals() {
   selectedGoal = 0;
 
   renderGrid();
-  refreshComparisonTable();
   setStatus(
     "Escenario: Metas con costes. Selecciona una meta para ejecutar."
   );
@@ -630,7 +542,7 @@ function scenarioNoSolution() {
    */
   const barrierRow = Math.floor(ROWS / 2);
 
-  for (let col = 0; col < COLS; col++) {
+  for (let col = 1; col < COLS - 1; col++) {
     grid[barrierRow][col].wall = true;
   }
 
@@ -652,7 +564,6 @@ function scenarioNoSolution() {
   grid[goals[0].row][goals[0].col].wall = false;
 
   renderGrid();
-  refreshComparisonTable();
   setStatus("Escenario: Sin solución.");
 }
 
@@ -661,121 +572,54 @@ function randomMaze() {
   running = false;
   paused = false;
 
-  // Si hubiera una animación pausada, la desbloqueamos para que
-  // la ejecución anterior pueda terminar al detectar el nuevo token.
-  if (pauseResolver) {
-    pauseResolver();
-    pauseResolver = null;
-  }
-
   createEmptyGrid();
-
-  // 1. Colocamos obstáculos aleatoriamente, dejando inicialmente
-  //    todas las celdas disponibles para poder elegir inicio/metas.
-  const wallProbability = 0.22;
-
-  for (let row = 1; row < ROWS - 1; row++) {
-    for (let col = 1; col < COLS - 1; col++) {
-      grid[row][col].wall = Math.random() < wallProbability;
-    }
-  }
-
-  // 2. Elegimos aleatoriamente el inicio en una celda libre.
-  const freeCells = [];
-  for (let row = 1; row < ROWS - 1; row++) {
-    for (let col = 1; col < COLS - 1; col++) {
-      if (!grid[row][col].wall) {
-        freeCells.push({ row, col });
-      }
-    }
-  }
-
-  // Siempre dejamos suficientes celdas para inicio y metas.
-  const requestedGoals = Math.max(
-    1,
-    Math.min(10, Number(randomGoalsElement.value) || 1)
-  );
-
-  while (freeCells.length < requestedGoals + 1) {
-    const row = 1 + Math.floor(Math.random() * (ROWS - 2));
-    const col = 1 + Math.floor(Math.random() * (COLS - 2));
-    grid[row][col].wall = false;
-
-    if (!freeCells.some(cell => cell.row === row && cell.col === col)) {
-      freeCells.push({ row, col });
-    }
-  }
-
-  const takeRandomCell = () => {
-    const index = Math.floor(Math.random() * freeCells.length);
-    return freeCells.splice(index, 1)[0];
-  };
-
-  start = takeRandomCell();
-  grid[start.row][start.col].wall = false;
-
-  // 3. Colocamos aleatoriamente el número de metas indicado.
-  goals = [];
-  selectedGoal = 0;
-
-  for (let i = 0; i < requestedGoals; i++) {
-    const position = takeRandomCell();
-    const cost = Number(goalCostElement.value) || 10;
-
-    goals.push({
-      row: position.row,
-      col: position.col,
-      cost
-    });
-
-    grid[position.row][position.col].wall = false;
-  }
-
-  // 4. Añadimos pesos aleatorios a una parte de las celdas libres.
-  //    Las metas y el inicio no reciben peso para que sean fáciles de identificar.
-  const weightProbability = 0.18;
-  const minWeight = 2;
-  const maxWeight = Math.max(
-    minWeight,
-    Number(tileWeightElement.value) || 9
-  );
 
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      if (
-        !grid[row][col].wall &&
-        !isStart(row, col) &&
-        !getGoalAt(row, col) &&
-        Math.random() < weightProbability
-      ) {
-        grid[row][col].weight =
-          minWeight + Math.floor(Math.random() * (maxWeight - minWeight + 1));
+      const border =
+        row === 0 ||
+        row === ROWS - 1 ||
+        col === 0 ||
+        col === COLS - 1;
+
+      if (border) {
+        grid[row][col].wall = true;
+      } else {
+        grid[row][col].wall = Math.random() < .24;
       }
     }
   }
+
+  start = { row: 1, col: 1 };
+
+  goals = [{
+    row: ROWS - 2,
+    col: COLS - 2,
+    cost: Number(goalCostElement.value) || 10
+  }];
+
+  grid[start.row][start.col].wall = false;
+  grid[goals[0].row][goals[0].col].wall = false;
+
+  [
+    { row: 1, col: 2 },
+    { row: 2, col: 1 },
+    { row: ROWS - 2, col: COLS - 3 },
+    { row: ROWS - 3, col: COLS - 2 }
+  ].forEach(position => {
+    grid[position.row][position.col].wall = false;
+  });
 
   clearVisualization();
   clearResults();
   renderGrid();
-  refreshComparisonTable();
 
-  setStatus(
-    `Aleatorio: inicio, ${goals.length} ${goals.length === 1 ? "meta" : "metas"}, obstáculos y pesos generados.`
-  );
+  setStatus("Nuevo laberinto aleatorio generado.");
   updateButtons();
 }
 
 function clearMaze() {
   animationToken++;
-
-  // Limpiar también funciona mientras la animación está pausada.
-  // Liberamos la espera pendiente para que la animación anterior
-  // pueda detectar el nuevo animationToken y detenerse.
-  if (pauseResolver) {
-    pauseResolver();
-    pauseResolver = null;
-  }
-
   running = false;
   paused = false;
 
@@ -784,7 +628,6 @@ function clearMaze() {
   clearVisualization();
   clearResults();
   renderGrid();
-  refreshComparisonTable();
 
   setStatus("Tablero limpio.");
   updateButtons();
@@ -816,8 +659,7 @@ function updateButtons() {
   runBtn.disabled = running;
   compareBtn.disabled = running;
   randomBtn.disabled = running;
-  // Limpiar debe seguir disponible cuando la animación está pausada.
-  clearBtn.disabled = running && !paused;
+  clearBtn.disabled = running;
 
   pauseBtn.disabled = !running;
   pauseBtn.textContent = paused
@@ -913,11 +755,6 @@ pauseBtn.addEventListener("click", togglePause);
 randomBtn.addEventListener("click", randomMaze);
 clearBtn.addEventListener("click", clearMaze);
 
-activeGoalElement.addEventListener("change", () => {
-  selectedGoal = Number(activeGoalElement.value) || 0;
-  refreshComparisonTable();
-});
-
 /*
  * Si cambia el coste de la meta, actualizamos
  * las metas existentes.
@@ -930,15 +767,6 @@ goalCostElement.addEventListener("change", () => {
   });
 
   renderGrid();
-  refreshComparisonTable();
-});
-
-randomGoalsElement.addEventListener("input", () => {
-  refreshComparisonTable();
-});
-
-tileWeightElement.addEventListener("input", () => {
-  refreshComparisonTable();
 });
 
 /* ================= INICIO ================= */
