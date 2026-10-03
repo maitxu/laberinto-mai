@@ -1,4 +1,4 @@
-#  Laboratorio de rutas — Algoritmos de búsqueda
+# 🧭 Laboratorio de rutas — Algoritmos de búsqueda
 
 Aplicación web educativa para visualizar y comparar algoritmos clásicos de **búsqueda en espacios de estados** mediante un laberinto interactivo.
 
@@ -6,7 +6,7 @@ El proyecto permite construir escenarios manualmente, ejecutar un algoritmo paso
 
 ---
 
-## 1.  Objetivo
+## 1. 🎯 Objetivo
 
 El objetivo del proyecto es comprender de forma visual cómo funcionan distintos sistemas de resolución de problemas por búsqueda.
 
@@ -25,7 +25,7 @@ La aplicación está pensada como herramienta de apoyo para el estudio de **Inte
 
 ---
 
-## 2.  Tecnologías utilizadas
+## 2. 🛠️ Tecnologías utilizadas
 
 - **HTML5** — estructura de la interfaz.
 - **CSS3** — diseño visual, tablero, colores, iconos y diseño responsive.
@@ -51,7 +51,7 @@ proyecto/
 
 ---
 
-## 3. ▶ Instrucciones de uso
+## 3. ▶️ Instrucciones de uso
 
 ### Opción A — Abrir directamente
 
@@ -77,17 +77,17 @@ proyecto/
 
 ---
 
-## 4.  Elementos de la interfaz
+## 4. 🧩 Elementos de la interfaz
 
 ### Barra superior
 
--  **Velocidad de animación**: modifica la velocidad de visualización.
--  **Mostrar exploración**: muestra u oculta los nodos explorados.
+- 🎚️ **Velocidad de animación**: modifica la velocidad de visualización.
+- ☑️ **Mostrar exploración**: muestra u oculta los nodos explorados.
 - ▶ **Ejecutar**: ejecuta el algoritmo seleccionado.
--  **Comparar todas**: calcula y visualiza BFS, DFS, Coste Uniforme y A*.
+- ⚖ **Comparar todas**: calcula y visualiza BFS, DFS, Coste Uniforme y A*.
 - ⏸ **Pausar / Continuar**: detiene o continúa la animación.
--  **Aleatorio**: genera un tablero con inicio, metas, obstáculos y pesos aleatorios.
--  **Limpiar**: reinicia el tablero, incluso si la animación está pausada.
+- 🎲 **Aleatorio**: genera un tablero con inicio, metas, obstáculos y pesos aleatorios.
+- 🧹 **Limpiar**: reinicia el tablero, incluso si la animación está pausada.
 
 ### Panel izquierdo
 
@@ -103,19 +103,19 @@ Permite seleccionar:
 
 ### Herramientas de dibujo
 
--  **Obstáculo**: impide el paso del algoritmo.
--  **Borrar**: elimina obstáculos, pesos o metas.
--  **Inicio**: coloca o mueve el punto de partida.
--  **Meta**: añade una meta.
--  **Peso**: asigna un coste de entrada a una celda.
+- 🧱 **Obstáculo**: impide el paso del algoritmo.
+- 🧽 **Borrar**: elimina obstáculos, pesos o metas.
+- 🟢 **Inicio**: coloca o mueve el punto de partida.
+- 🔴 **Meta**: añade una meta.
+- 🟨 **Peso**: asigna un coste de entrada a una celda.
 
 Los iconos se muestran junto con los colores para que la información no dependa únicamente del color.
 
 ---
 
-## 5.  Descripción de los algoritmos
+## 5. 🔎 Descripción de los algoritmos
 
-###  BFS — Breadth-First Search
+### 🔵 BFS — Breadth-First Search
 
 **Búsqueda en anchura.**
 
@@ -129,7 +129,7 @@ Explora primero los nodos que están a menor número de pasos del inicio. Utiliz
 
 ---
 
-###  DFS — Depth-First Search
+### 🟣 DFS — Depth-First Search
 
 **Búsqueda en profundidad.**
 
@@ -144,7 +144,7 @@ Avanza por una rama todo lo posible antes de retroceder. Utiliza una pila.
 
 ---
 
-###  Coste Uniforme — Uniform Cost Search
+### 🟠 Coste Uniforme — Uniform Cost Search
 
 Selecciona para expandir el nodo cuyo camino acumulado tiene menor coste.
 
@@ -157,7 +157,7 @@ Selecciona para expandir el nodo cuyo camino acumulado tiene menor coste.
 
 ---
 
-###  A* — A-Star
+### 🟢 A* — A-Star
 
 Combina el coste acumulado con una estimación de la distancia restante.
 
@@ -181,7 +181,7 @@ En este proyecto se utiliza la **distancia Manhattan** como heurística.
 
 ---
 
-## 6.  Los cuatro escenarios
+## 6. 🧩 Los cuatro escenarios
 
 ### 1. Menos pasos
 
@@ -211,7 +211,7 @@ Sirve para comprobar cómo los cuatro algoritmos detectan que no existe un camin
 
 ---
 
-## 7.  Resultados y comparación
+## 7. 📊 Resultados y comparación
 
 La aplicación muestra resultados individuales en una **columna situada a la derecha del tablero**.
 
@@ -248,7 +248,7 @@ De esta forma, la comparación siempre representa el **estado actual del tablero
 
 ---
 
-## 8.  Pruebas realizadas
+## 8. 🧪 Pruebas realizadas
 
 ### Prueba 1 — Tablero sin obstáculos
 
@@ -294,7 +294,7 @@ De esta forma, la comparación siempre representa el **estado actual del tablero
 
 ---
 
-## 9.  Capturas
+## 9. 📸 Capturas
 
 ### Interfaz principal
 
@@ -316,7 +316,7 @@ Tabla comparativa situada debajo del tablero con las características y resultad
 
 ---
 
-## 10.  Limitaciones
+## 10. ⚠️ Limitaciones
 
 - El tablero utiliza movimientos en cuatro direcciones: arriba, derecha, abajo e izquierda.
 - La heurística de A* es distancia Manhattan.
@@ -328,7 +328,7 @@ Tabla comparativa situada debajo del tablero con las características y resultad
 
 ---
 
-## 11.  Enlaces de referencia
+## 11. 🔗 Enlaces de referencia
 
 - MDN — HTML: https://developer.mozilla.org/es/docs/Web/HTML
 - MDN — CSS: https://developer.mozilla.org/es/docs/Web/CSS
@@ -340,7 +340,7 @@ Tabla comparativa situada debajo del tablero con las características y resultad
 
 ---
 
-## 12.  Archivos principales
+## 12. 📁 Archivos principales
 
 ### `index.html`
 
@@ -365,7 +365,7 @@ Contiene las implementaciones de:
 
 ---
 
-## ‍ Autora
+## 👩‍💻 Autora
 
 **Maitane Herrera**
 
