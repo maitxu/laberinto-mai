@@ -44,7 +44,7 @@ proyecto/
 
 ---
 
-## 3. ▶ Instrucciones de uso
+## 3. Instrucciones de uso
 
 ### Opción A — Abrir directamente
 
@@ -110,13 +110,7 @@ Permite seleccionar:
 
 **Búsqueda en anchura.**
 
-Explora primero los nodos que están a menor número de pasos del inicio. Utiliza una cola.
-
-- Garantiza el camino con menos pasos cuando todas las acciones tienen el mismo coste.
-- No utiliza pesos de las celdas para decidir el camino.
-- No utiliza heurística.
-
-**Idea:** explora por niveles: primero los vecinos del inicio, después los vecinos de esos vecinos, etc.
+BFS utiliza una cola. Primero entra el inicio y después sus vecinos. Los vecinos de esos vecinos se añaden detrás. Por eso explora por niveles.
 
 ---
 
@@ -124,51 +118,19 @@ Explora primero los nodos que están a menor número de pasos del inicio. Utiliz
 
 **Búsqueda en profundidad.**
 
-Avanza por una rama todo lo posible antes de retroceder. Utiliza una pila.
-
-- Puede encontrar una solución rápidamente dependiendo de la estructura del tablero.
-- No garantiza el camino de menor número de pasos.
-- No utiliza los pesos como criterio de decisión.
-- No utiliza heurística.
-
-**Idea:** profundiza por un camino y vuelve atrás cuando ya no puede continuar.
+DFS utiliza una pila. El algoritmo continúa por una rama hasta que no puede seguir y entonces retrocede.
 
 ---
 
 ###  Coste Uniforme — Uniform Cost Search
 
-Selecciona para expandir el nodo cuyo camino acumulado tiene menor coste.
-
-- Tiene en cuenta los pesos de las celdas.
-- Permite encontrar el camino de menor coste cuando los costes son no negativos.
-- No utiliza heurística.
-- También incorpora el coste de la meta al calcular el coste final.
-
-**Idea:** no busca necesariamente el camino con menos pasos, sino el camino con menor coste total.
+UCS selecciona la celda cuyo coste acumulado desde el inicio es menor. 
 
 ---
 
-###  A* — A-Star
+###  A* 
 
-Combina el coste acumulado con una estimación de la distancia restante.
-
-Utiliza:
-
-```text
-f(n) = g(n) + h(n)
-```
-
-Donde:
-
-- `g(n)` = coste acumulado desde el inicio.
-- `h(n)` = estimación del coste restante.
-- `f(n)` = prioridad utilizada para seleccionar el siguiente nodo.
-
-En este proyecto se utiliza la **distancia Manhattan** como heurística.
-
-- Tiene en cuenta los pesos.
-- Utiliza una heurística.
-- Puede encontrar caminos de coste óptimo cuando la heurística es adecuada y se cumplen las condiciones de coste.
+A* combina el coste ya recorrido con una estimación del coste que falta.
 
 ---
 
@@ -206,24 +168,11 @@ Sirve para comprobar cómo los cuatro algoritmos detectan que no existe un camin
 
 La aplicación muestra resultados individuales en una **columna situada a la derecha del tablero**.
 
-Al pulsar **Comparar todas**, aparece debajo del tablero una tabla con los cuatro algoritmos.
-
-La tabla incluye:
-
-| Característica | Descripción |
-|---|---|
-| Algoritmo | BFS, DFS, Coste Uniforme o A* |
-| Tipo de búsqueda | Anchura, profundidad, coste mínimo o coste + heurística |
-| Pesos | Indica si el algoritmo utiliza los pesos |
-| Heurística | Indica si utiliza una heurística |
-| Encontrado | Si existe un camino hasta la meta |
-| Nodos explorados | Número de nodos visitados durante la búsqueda |
-| Pasos | Número de movimientos del camino encontrado |
-| Coste | Coste total del camino |
+Al pulsar **Comparar todas**, aparece debajo del tablero una tabla mostrando los datos que saca cada algoritmo.
 
 ### Actualización dinámica
 
-La tabla se recalcula cuando cambia el estado relevante del tablero, por ejemplo:
+La tabla se recalcula cuando cambia el estado del tablero, por ejemplo:
 
 - obstáculos;
 - pesos;
@@ -234,8 +183,6 @@ La tabla se recalcula cuando cambia el estado relevante del tablero, por ejemplo
 - escenarios;
 - tablero aleatorio;
 - limpieza del tablero.
-
-De esta forma, la comparación siempre representa el **estado actual del tablero**.
 
 ---
 
@@ -277,57 +224,11 @@ De esta forma, la comparación siempre representa el **estado actual del tablero
 
 **Resultado esperado:** el tablero vuelve a quedar preparado para una nueva ejecución.
 
-### Prueba 7 — Comparación dinámica
+### Prueba 7 — Tabla comparativa
 
 **Objetivo:** comprobar que la tabla comparativa representa siempre el tablero actual.
 
 **Resultado esperado:** al modificar obstáculos, pesos, metas, inicio o costes, los resultados se recalculan.
-
----
-
-## 9.  Capturas
-
-### Interfaz principal
-
-![Interfaz principal](capturas/interfaz-principal.svg)
-
-Vista general del laboratorio con el panel de configuración, tablero y columna de resultados.
-
-### Escenario con varias metas
-
-![Escenario con metas](capturas/escenario-metas.svg)
-
-Ejemplo de tablero con varias metas y selección de meta activa.
-
-### Comparación de algoritmos
-
-![Comparación](capturas/comparacion.svg)
-
-Tabla comparativa situada debajo del tablero con las características y resultados de los cuatro algoritmos.
-
----
-
-## 10.  Limitaciones
-
-- El tablero utiliza movimientos en cuatro direcciones: arriba, derecha, abajo e izquierda.
-- La heurística de A* es distancia Manhattan.
-- Los costes de las celdas son positivos.
-- BFS y DFS no utilizan los pesos como criterio de búsqueda; sus métricas de coste representan el número de movimientos.
-- Coste Uniforme y A* sí consideran los pesos de entrada de las celdas y el coste adicional de la meta.
-- La generación aleatoria puede producir tableros sin solución; esto también sirve para observar el comportamiento de los algoritmos ante un problema sin camino.
-- La aplicación está pensada principalmente para fines educativos y visualización, no para medir rendimiento de algoritmos a gran escala.
-
----
-
-## 11.  Enlaces de referencia
-
-- MDN — HTML: https://developer.mozilla.org/es/docs/Web/HTML
-- MDN — CSS: https://developer.mozilla.org/es/docs/Web/CSS
-- MDN — JavaScript: https://developer.mozilla.org/es/docs/Web/JavaScript
-- Wikipedia — Breadth-first search: https://en.wikipedia.org/wiki/Breadth-first_search
-- Wikipedia — Depth-first search: https://en.wikipedia.org/wiki/Depth-first_search
-- Wikipedia — Dijkstra's algorithm: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-- Wikipedia — A* search algorithm: https://en.wikipedia.org/wiki/A*_search_algorithm
 
 ---
 
@@ -339,7 +240,7 @@ Contiene la estructura de la interfaz: barra superior, panel de configuración, 
 
 ### `style.css`
 
-Contiene el diseño visual, colores, iconos, cuadrícula, tarjetas, tabla y comportamiento responsive.
+Contiene el diseño visual, colores, iconos, cuadrícula, tabla y comportamiento responsive.
 
 ### `app.js`
 
@@ -347,12 +248,7 @@ Gestiona la interacción con el usuario, creación del tablero, escenarios, herr
 
 ### `algorithms.js`
 
-Contiene las implementaciones de:
-
-- BFS
-- DFS
-- Coste Uniforme
-- A*
+En este archivo guardamos los algoritmos a los que después llamaremos desde 'app.js' 
 
 ---
 
@@ -360,4 +256,3 @@ Contiene las implementaciones de:
 
 **Maitane Herrera**
 
-Proyecto académico — Sistemas de resolución de problemas por búsqueda.
